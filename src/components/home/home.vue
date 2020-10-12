@@ -21,7 +21,7 @@
         </el-col>
         <el-col :span="2" class="right">
           <div class="grid-content bg-purple">
-            <a class="loginout" href="#">退出</a>
+            <a class="loginout" @click.prevent="loginout()" href="#">退出</a>
           </div>
         </el-col>
       </el-row>
@@ -38,7 +38,7 @@
           background-color="#545c64"
           text-color="#fff"
           active-text-color="#ffd04b"
-          unique-opened=true
+          :unique-opened='true'
         >
           <el-submenu index="1">
             <template slot="title">
@@ -121,6 +121,11 @@
 
 <script>
 export default {
+    data() {
+        return {
+            
+        }
+    },
   methods: {
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
@@ -128,6 +133,19 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
+    loginout(){
+        localStorage.clear()
+        this.$message.success('退出成功')
+        this.$router.push({name:'login'})
+    }
+  },
+  //在没创建之前查看token存在不存在，不存在则进入登录页
+  beforeCreate() {
+      //获取token
+      const token=localStorage.getItem('token') 
+      if(!token){
+          this.$router.push({name:'login'})
+      }
   },
 };
 </script>
