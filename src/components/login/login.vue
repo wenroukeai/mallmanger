@@ -31,10 +31,8 @@ export default {
       };
     },
     methods: {
-      handleLogin(){
-        this.$http.post('login',this.formData)
-        .then(res=>{
-          
+      async handleLogin(){
+        const res=await this.$http.post('login',this.formData)  
           const {
             data,
             meta:{msg,status} 
@@ -45,12 +43,35 @@ export default {
             this.$router.push({name:'home'})
             //提示消息
             this.$message.success(msg);
+            //保存token
+            localStorage.setItem('token',data.token)
           }
           //2.登陆不成功
           else{
             this.$message.error(msg)
           }
-        })
+        
+
+
+        // this.$http.post('login',this.formData)
+        // .then(res=>{
+          
+        //   const {
+        //     data,
+        //     meta:{msg,status} 
+        //   }=res.data
+        //   //1.登陆成功
+        //   if(status===200){
+        //     //跳转页面
+        //     this.$router.push({name:'home'})
+        //     //提示消息
+        //     this.$message.success(msg);
+        //   }
+        //   //2.登陆不成功
+        //   else{
+        //     this.$message.error(msg)
+        //   }
+        // })
       }
     },
 };
